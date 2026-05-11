@@ -7,7 +7,7 @@ Two slash commands for coding agents that find the gaps your tests can't.
 
 Both commands **audit only**. They don't edit your code. They create one prioritised task per gap so you (or another agent) can fix them one by one.
 
-Built for [GG Coder](https://ggcoder.dev), but the prompts are plain markdown — adapt them to Claude Code, Cursor, Aider, or any harness that supports custom commands.
+Built for GG Coder, but the prompts are plain markdown — adapt them to Claude Code, Cursor, Aider, or any harness that supports custom commands.
 
 ---
 
@@ -115,6 +115,16 @@ Then it clicks through and reports findings:
 Run **`/contract`** first to clean up the type/API layer. Run **`/flow`** to verify the user-facing journeys on top of it. Both produce tasks in the same task pane, so you can work through Critical → High → Medium in order regardless of which command found the gap.
 
 There's a third sibling, `/trace`, that does static data-flow auditing — `/flow` will point you to it if your project has no UI.
+
+---
+
+## When it comes time to fix
+
+These commands stop at the task list. Fixing is a separate job — and the quality of the fix depends entirely on whether the agent doing it understands the real patterns of the codebase (and the wider ecosystem) before it writes a line.
+
+If the project's internal patterns are strong and consistent, a fix agent can usually just mirror them. When they're not — or when the gap involves an unfamiliar library, API, or config surface — the fix agent should ground itself in real code from real repos before implementing, not guess from stale training data.
+
+**ken-mcp** is the recommended tool for that step. Point the fix agent at it after it picks up a task and before it writes the fix: look up canonical usage of the type, hook, flag, or pattern in question, confirm the shape, then implement. Most low-quality fixes come from agents pattern-matching on what they *think* the API looks like — this is the cheapest way to eliminate that whole class of mistake.
 
 ---
 
