@@ -10,7 +10,7 @@ Trace every user journey through the full stack (UI → IPC → backend → DB �
 
 ## Step 0: Feasibility & driver gate
 
-Before anything else, decide if `/flow` can actually run on this project. **Do not skip this step.** Without a real browser/app driver, `/flow` degrades into fuzzy grep that just duplicates `/trace`.
+Before anything else, decide if `/flow` can actually run on this project. **Do not skip this step.** Without a real browser/app driver, `/flow` degrades into fuzzy grep with no real verification.
 
 **0a. Classify the project.** Read `package.json`, framework files, and directory structure. Classify into ONE of:
 
@@ -24,7 +24,7 @@ Before anything else, decide if `/flow` can actually run on this project. **Do n
 
 **0b. Bail loud if not applicable.** If the project is server-only / CLI / lib, STOP and tell the user:
 
-> This project has no UI surface — `/flow` isn't applicable. Use **`/trace`** for static data-flow auditing or **`/contract`** for interface-vs-implementation gaps.
+> This project has no UI surface — `/flow` isn't applicable. Use **`/contract`** for interface-vs-implementation gaps instead.
 
 Do not proceed. Do not install anything.
 

@@ -124,8 +124,6 @@ Then it clicks through and reports findings:
 
 Run **`/contract`** first to clean up the type/API layer. Run **`/flow`** to verify the user-facing journeys on top of it. Both produce tasks in the same task pane, so you can work through Critical → High → Medium in order regardless of which command found the gap.
 
-There's a third sibling, `/trace`, that does static data-flow auditing — `/flow` will point you to it if your project has no UI.
-
 ---
 
 ## Grounding the audit against real code
