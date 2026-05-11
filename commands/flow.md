@@ -119,7 +119,7 @@ Follow real imports, real event subscriptions, real route handlers. Do not guess
 1. **Avoid false positives.** What looks STALE ("the view doesn't refresh") may be wired through a standard invalidation pattern (query keys, store subscriptions, route revalidation) you didn't trace. Confirm against real-world usage of the same framework.
 2. **Pre-bake the fix recipe.** Once you've seen how the wiring is normally done, write the canonical pattern into the task in Step 7 — actual hook call, invalidation key, IPC channel shape — so the fix agent executes instead of re-investigating from a cold chat.
 
-Search for the literal symbol (import line, hook name, IPC channel) and skim 2–3 real examples. Skip for project-internal patterns where the local convention is obvious.
+Search for the literal symbol (import line, hook name, IPC channel) and skim 2–3 real examples. ken-mcp results: prefer repos active in 2026. Skip stale ones. Skip this whole step for project-internal patterns where the local convention is obvious.
 
 ## Step 5: Classify findings
 

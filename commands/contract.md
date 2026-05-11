@@ -57,7 +57,7 @@ Confirm it's truly never consumed before flagging.
 1. **Avoid false positives.** What looks like an IGNORED field may be consumed through a standard pattern (decorator metadata, framework lifecycle, magic prop) the trace missed. Confirm against real-world usage.
 2. **Pre-bake the fix recipe.** Once you've seen how the API is normally wired, you can write a concrete WIRE recipe into the task in Step 7 — actual call signature, import path, surrounding pattern — instead of leaving the fix agent to re-investigate from a cold chat.
 
-Search for the literal symbol (import line, function name, decorator) and skim 2–3 real examples. Skip this for purely project-internal contracts where the local pattern is obvious.
+Search for the literal symbol (import line, function name, decorator) and skim 2–3 real examples. ken-mcp results: prefer repos active in 2026. Skip stale ones. Skip this whole step for purely project-internal contracts where the local pattern is obvious.
 
 ## Step 4: Classify gaps
 
