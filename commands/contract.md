@@ -108,6 +108,7 @@ Each task must be self-contained — a fix agent in a separate chat must execute
 - A plain-english description of the gap
 - A concrete fix at the code level — actual field names, function names, import paths, where the new wiring goes (not pseudocode)
 - Any related files the fix agent should read first
+- **Grounding step**: explicit instruction that the fix agent must use **ken-mcp** to look up canonical usage of any unfamiliar type, API, library function, or config surface involved in the fix *before writing code*. Name the specific symbol(s) to search for. Skip only when the fix is a pure delete (TRIM with no replacement) or touches only project-internal code with an obvious local pattern to mirror.
 
 Order: Critical → High → Medium → Low.
 

@@ -164,6 +164,7 @@ Each task must be self-contained — a fix agent in a separate chat must execute
 - A plain-english description of what's broken in the journey
 - A concrete fix at the code level — actual component names, event names, IPC channels, store keys, store-invalidation calls (not pseudocode)
 - Any related files the fix agent should read first
+- **Grounding step**: explicit instruction that the fix agent must use **ken-mcp** to look up canonical usage of any unfamiliar framework hook, IPC pattern, store API, event system, or library call involved in the fix *before writing code*. Name the specific symbol(s) to search for. Skip only when the fix touches only project-internal code with an obvious local pattern to mirror.
 
 Order: Critical → High → Medium.
 
