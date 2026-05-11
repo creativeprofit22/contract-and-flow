@@ -141,25 +141,7 @@ The fix agent only re-runs a ken-mcp lookup as a fallback, when the audit-time r
 
 ---
 
-## Install — GG Coder
-
-Drop the files into your global commands directory:
-
-```bash
-# Global (available in every project)
-mkdir -p ~/.gg/commands
-cp commands/contract.md commands/flow.md ~/.gg/commands/
-
-# Or per-project
-mkdir -p .gg/commands
-cp commands/contract.md commands/flow.md .gg/commands/
-```
-
-Restart GG Coder. Type `/contract` or `/flow` — autocomplete should pick them up.
-
----
-
-## Install — other harnesses
+## Install
 
 The command files are just markdown with a YAML frontmatter header. The body is the actual prompt. To port them:
 
