@@ -137,6 +137,8 @@ When the auditor hits an unfamiliar library, framework hook, decorator, IPC patt
 1. **Fewer false positives.** What looks like an IGNORED field or a STALE view may be wired through a standard pattern the trace missed. Verifying against real-world usage catches that before a task gets created.
 2. **Tasks become recipes.** Once the auditor has seen the canonical pattern, it bakes that pattern into the task — actual call signature, import path, invalidation key, hook shape. The fix agent executes instead of re-investigating from a cold chat.
 
+Lookups are anchored to repos active in 2026 so the agent can't fall back to stale patterns from its training data.
+
 The fix agent only re-runs a ken-mcp lookup as a fallback, when the audit-time recipe is ambiguous. Most low-quality fixes come from agents pattern-matching on what they *think* an API looks like — grounding once, at the right moment, eliminates that entire class of mistake.
 
 ---
