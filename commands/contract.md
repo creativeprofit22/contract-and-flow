@@ -52,6 +52,13 @@ For each contract in scope, list every field / method / event / flag it promises
 
 Confirm it's truly never consumed before flagging.
 
+**Ground unfamiliar APIs with ken-mcp before classifying.** If a contract involves a third-party library, framework hook, decorator, or external API you're not certain about, use **ken-mcp** to look up canonical usage in real public repos *before* deciding the implementation is broken. Two reasons:
+
+1. **Avoid false positives.** What looks like an IGNORED field may be consumed through a standard pattern (decorator metadata, framework lifecycle, magic prop) the trace missed. Confirm against real-world usage.
+2. **Pre-bake the fix recipe.** Once you've seen how the API is normally wired, you can write a concrete WIRE recipe into the task in Step 7 — actual call signature, import path, surrounding pattern — instead of leaving the fix agent to re-investigate from a cold chat.
+
+Search for the literal symbol (import line, function name, decorator) and skim 2–3 real examples. Skip this for purely project-internal contracts where the local pattern is obvious.
+
 ## Step 4: Classify gaps
 
 For every promise that isn't fully kept:
@@ -106,9 +113,9 @@ Each task must be self-contained — a fix agent in a separate chat must execute
 - Decision (WIRE / TRIM / DOCUMENT) — or "needs decision" with both options spelled out
 - Exact `file:line` for both contract and implementation
 - A plain-english description of the gap
-- A concrete fix at the code level — actual field names, function names, import paths, where the new wiring goes (not pseudocode)
+- A concrete fix at the code level — actual field names, function names, import paths, where the new wiring goes (not pseudocode). If you grounded the contract against ken-mcp in Step 3, bake the canonical pattern you saw directly into the task (call signature, import path, surrounding usage). The fix agent should be able to execute, not re-investigate.
 - Any related files the fix agent should read first
-- **Grounding step**: explicit instruction that the fix agent must use **ken-mcp** to look up canonical usage of any unfamiliar type, API, library function, or config surface involved in the fix *before writing code*. Name the specific symbol(s) to search for. Skip only when the fix is a pure delete (TRIM with no replacement) or touches only project-internal code with an obvious local pattern to mirror.
+- **Fallback grounding clause**: if your Step 3 recipe is ambiguous or you couldn't verify the pattern (rare API, no public examples), tell the fix agent to run a ken-mcp lookup on the specific symbol *before* writing code. Otherwise omit — don't pad every task with redundant lookup instructions.
 
 Order: Critical → High → Medium → Low.
 

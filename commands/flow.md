@@ -114,6 +114,13 @@ At the end of each flow:
 
 Follow real imports, real event subscriptions, real route handlers. Do not guess.
 
+**Ground unfamiliar framework patterns with ken-mcp before classifying.** When a flow depends on a framework hook, IPC pattern, store API, router behaviour, or event-bus convention you're not certain about, use **ken-mcp** to look up how the pattern is wired in real public apps *before* calling something BROKEN, STALE, or ASYMMETRIC. Two reasons:
+
+1. **Avoid false positives.** What looks STALE ("the view doesn't refresh") may be wired through a standard invalidation pattern (query keys, store subscriptions, route revalidation) you didn't trace. Confirm against real-world usage of the same framework.
+2. **Pre-bake the fix recipe.** Once you've seen how the wiring is normally done, write the canonical pattern into the task in Step 7 — actual hook call, invalidation key, IPC channel shape — so the fix agent executes instead of re-investigating from a cold chat.
+
+Search for the literal symbol (import line, hook name, IPC channel) and skim 2–3 real examples. Skip for project-internal patterns where the local convention is obvious.
+
 ## Step 5: Classify findings
 
 Use these finding types only:
@@ -162,9 +169,9 @@ Each task must be self-contained — a fix agent in a separate chat must execute
 - The flow being fixed (e.g. "Schedule post → Calendar update")
 - Exact `file:line` for both ends (UI element + handler/event/destination)
 - A plain-english description of what's broken in the journey
-- A concrete fix at the code level — actual component names, event names, IPC channels, store keys, store-invalidation calls (not pseudocode)
+- A concrete fix at the code level — actual component names, event names, IPC channels, store keys, store-invalidation calls (not pseudocode). If you grounded the flow against ken-mcp in Step 4, bake the canonical pattern you saw directly into the task (hook call, invalidation key, IPC channel shape, event signature). The fix agent should be able to execute, not re-investigate.
 - Any related files the fix agent should read first
-- **Grounding step**: explicit instruction that the fix agent must use **ken-mcp** to look up canonical usage of any unfamiliar framework hook, IPC pattern, store API, event system, or library call involved in the fix *before writing code*. Name the specific symbol(s) to search for. Skip only when the fix touches only project-internal code with an obvious local pattern to mirror.
+- **Fallback grounding clause**: if your Step 4 recipe is ambiguous or you couldn't verify the pattern (rare framework, no public examples), tell the fix agent to run a ken-mcp lookup on the specific symbol *before* writing code. Otherwise omit — don't pad every task with redundant lookup instructions.
 
 Order: Critical → High → Medium.
 
