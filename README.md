@@ -7,7 +7,17 @@ Two slash commands for coding agents that find the gaps your tests can't.
 
 Both commands **audit only**. They don't edit your code. They create one prioritised task per gap so you (or another agent) can fix them one by one.
 
-Built for GG Coder, but the prompts are plain markdown — adapt them to Claude Code, Cursor, Aider, or any harness that supports custom commands.
+Built for GG Coder, but the prompts are plain markdown, so adapt them to Claude Code, Cursor, Aider, or any harness that supports custom commands.
+
+---
+
+## Before you run them
+
+Please do not paste random slash commands off the internet into your agent and hit enter. Not these, not anyone's.
+
+Open `commands/contract.md` and `commands/flow.md`, read what they actually do, and ideally get your own agent to explain them back to you in plain English and recreate them in your own commands folder. That way you know exactly what is going into your task pane and you have not handed a stranger a shell on your project.
+
+These particular commands are audit only and will not edit your code. The next slash command you find online might not be so polite. Build the habit now.
 
 ---
 
@@ -118,13 +128,16 @@ There's a third sibling, `/trace`, that does static data-flow auditing — `/flo
 
 ---
 
-## When it comes time to fix
+## Grounding the audit against real code
 
-These commands stop at the task list. Fixing is a separate job — and the quality of the fix depends entirely on whether the agent doing it understands the real patterns of the codebase (and the wider ecosystem) before it writes a line.
+Both commands lean on **ken-mcp** — at audit time, not fix time.
 
-If the project's internal patterns are strong and consistent, a fix agent can usually just mirror them. When they're not — or when the gap involves an unfamiliar library, API, or config surface — the fix agent should ground itself in real code from real repos before implementing, not guess from stale training data.
+When the auditor hits an unfamiliar library, framework hook, decorator, IPC pattern, or store convention, it looks up canonical usage in real public repos *before* deciding the implementation is broken. Two payoffs:
 
-**ken-mcp** is the recommended tool for that step. Point the fix agent at it after it picks up a task and before it writes the fix: look up canonical usage of the type, hook, flag, or pattern in question, confirm the shape, then implement. Most low-quality fixes come from agents pattern-matching on what they *think* the API looks like — this is the cheapest way to eliminate that whole class of mistake.
+1. **Fewer false positives.** What looks like an IGNORED field or a STALE view may be wired through a standard pattern the trace missed. Verifying against real-world usage catches that before a task gets created.
+2. **Tasks become recipes.** Once the auditor has seen the canonical pattern, it bakes that pattern into the task — actual call signature, import path, invalidation key, hook shape. The fix agent executes instead of re-investigating from a cold chat.
+
+The fix agent only re-runs a ken-mcp lookup as a fallback, when the audit-time recipe is ambiguous. Most low-quality fixes come from agents pattern-matching on what they *think* an API looks like — grounding once, at the right moment, eliminates that entire class of mistake.
 
 ---
 
